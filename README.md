@@ -2,8 +2,8 @@
 
 ## Roadmap
 
-- Criar Repo
-- Criar Partner do Projeto
+- ~~Criar Repo~~
+- ~~Criar Partner do Projeto~~
 - Definir se vai usar lowDB ou fs
 - Criar Primeira Estrutura getAll
 - Definir Estrutura dos Dados
