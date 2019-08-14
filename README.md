@@ -6,8 +6,32 @@
 - ~~Criar Partner do Projeto~~
 - ~~Definir se vai usar lowDB ou fs~~
 - ~~Criar Primeira rota getAll~~
-- Definir Estrutura dos Dados
-- Criar as rotas restantes (add, getByInterval, Delete)
+- ~~Definir Estrutura dos Dados~~
+
+  - ```
+    interface Interval {
+    start: string,
+    end: string,
+    }
+
+    interface SheduleData {
+        id?: string, //UUID
+        type: number, // 0 - Regra Dia Especifico /  1- Regra Diaria / 2- Regra Semanal
+        day?: string,
+        daysOfWeek?: number[],
+        intervals: Interval[],
+    }
+
+    interface Shedules{
+        shedules: SheduleData[]
+    }
+    ```
+
+- Criar Yup Schema Para Validar Entrada
+- Criar Rotas
+  - Criar a rota add
+  - Criar a rota getByInterval
+  - Criar a rota delete
 - Criar Testes
 - Fazer a Documentação
 
