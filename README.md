@@ -4,8 +4,8 @@
 
 - ~~Criar Repo~~
 - ~~Criar Partner do Projeto~~
-- Definir se vai usar lowDB ou fs
-- Criar Primeira Estrutura getAll
+- ~~Definir se vai usar lowDB ou fs~~
+- ~~Criar Primeira rota getAll~~
 - Definir Estrutura dos Dados
 - Criar as rotas restantes (add, getByInterval, Delete)
 - Criar Testes

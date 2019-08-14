@@ -3,6 +3,6 @@ import shedule from '../modules/shedule/controller'
 
 const routes = Router()
 
-routes.get('/', shedule.getAll)
+routes.get('/shedules', shedule.getAll)
 
 export default routes
