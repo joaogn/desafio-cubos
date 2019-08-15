@@ -27,13 +27,65 @@
     }
     ```
 
-- Criar Yup Schema Para Validar Entrada
+- ~~Criar Yup Schema Para Validar Entrada~~
 - Criar Rotas
-  - Criar a rota add
+  - ~~Criar a rota add~~
   - Criar a rota getByInterval
   - Criar a rota delete
 - Criar Testes
 - Fazer a Documentação
+
+## Regras
+
+### Regra Dia
+
+```
+{
+    "type": 0,
+    "day": "14-08-2019",
+    "intervals": [
+    {
+        "start": "11:00",
+        "end": "12:00"
+    },
+    {
+        "start": "14:00",
+        "end": "15:00"
+    }]
+ }
+```
+
+### Regra Diaria
+
+```
+{
+	"type": 1,
+	"intervals": [
+    {
+    	"start": "08:00",
+    	"end": "09:00"
+    }
+    ]
+}
+```
+
+### Regra Semanal
+
+```
+{
+   "type": 2,
+   "daysOfWeek": [1,2],
+   "intervals": [
+    {
+        "start": "16:00",
+        "end": "17:00"
+    },
+    {
+        "start": "17:00",
+        "end": "18:00"
+    }]
+}
+```
 
 # Processo Seletivo: Backend
 
