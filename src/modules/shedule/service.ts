@@ -4,7 +4,11 @@ import moment from 'moment'
 import uuidv4 from 'uuid/v4'
 import { addSchema, getSchema } from './schema'
 
-const local = path.resolve(__dirname, '../../../database.json')
+require('dotenv').config({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+})
+
+const local = path.resolve(__dirname, '../../../', process.env.DB_STORAGE)
 
 interface Interval {
     start: string,

@@ -1,3 +1,8 @@
 import app from './api/api'
 
-app.listen(3333)
+require('dotenv').config({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+})
+
+app.listen(process.env.PORT)
+console.log(`Server on Port ${process.env.PORT}`)
