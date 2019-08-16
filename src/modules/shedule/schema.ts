@@ -8,7 +8,33 @@ interface Interval {
 
 // cria um objeto Yup e fazendo as devidas verificaçãos e test para cada item
 // e escreve a menssagem de erro para verificação.
-export const schema = Yup.object().shape({
+export const getSchema = Yup.object().shape({
+  startDate: Yup.string()
+    .required('Day is required.')
+    .test(
+      'start day',
+      'Invalid start day format.',
+      // testa se o formato do dia está correto
+      (value:string):boolean => (moment(value, 'DD-MM-YYYY', true).isValid())
+    ),
+  endDate: Yup.string()
+    .required('Nescessario informar o dia')
+    .test(
+      'end day',
+      'Invalid end day format',
+      // testa se o formato do dia está correto
+      (value:string):boolean => (moment(value, 'DD-MM-YYYY', true).isValid())
+    )
+}).test(
+  'validation time',
+  'Start value must be before end.',
+  // testa se o dia inicial é menor ou igual que o final
+  (value):boolean => (moment(value.startDate, 'DD-MM-YYYY').isSameOrBefore(moment(value.endDate, 'DD-MM-YYYY')))
+)
+
+// cria um objeto Yup e fazendo as devidas verificaçãos e test para cada item
+// e escreve a menssagem de erro para verificação.
+export const addSchema = Yup.object().shape({
   type: Yup.number()
     .required('Type is required.')
     .test(
@@ -76,7 +102,7 @@ export const schema = Yup.object().shape({
           )
       }).test(
         'validation time',
-        'Start value must be before end.',
+        'Start hour must be before end.',
         // testa se o valor de start é menos que o de end
         (value:Interval):boolean => moment(value.start, 'HH:mm').isBefore(moment(value.end, 'HH:mm'))
       )

@@ -28,10 +28,10 @@
     ```
 
 - ~~Criar Yup Schema Para Validar Entrada~~
-- Criar Rotas
+- ~~Criar Rotas~~
   - ~~Criar a rota add~~
-  - Criar a rota getByInterval
-  - Criar a rota delete
+  - ~~Criar a rota getByInterval~~
+  - ~~Criar a rota delete~~
 - Criar Testes
 - Fazer a Documentação
 

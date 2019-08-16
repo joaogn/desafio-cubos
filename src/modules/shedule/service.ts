@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import moment from 'moment'
 import uuidv4 from 'uuid/v4'
-import { schema } from './schema'
+import { addSchema, getSchema } from './schema'
 
 const local = path.resolve(__dirname, '../../../database.json')
 
@@ -13,7 +13,7 @@ interface Interval {
 
   interface SheduleData {
     id?: string, // UUID
-    type: number, // 0 - Regra Dia Especifico /  1- Regra Diaria / 2- Regra Semanal
+    type?: number, // 0 - Regra Dia Especifico /  1- Regra Diaria / 2- Regra Semanal
     day?: string,
     daysOfWeek?: number[],
     intervals: Interval[],
@@ -36,11 +36,10 @@ class Shedule {
   }
 
   public add (data:SheduleData): Promise<SheduleData> {
-  //  const validate = this.validateShedule
     let validFlag = true
     return new Promise((resolve, reject) => {
       // Faz a validação dos dados de entrada com o  schema se for valido faz a regra de negocio
-      schema.validate(data).then((newShedule) => {
+      addSchema.validate(data).then((newShedule) => {
         fs.readFile(local, 'utf8', (error, data) => {
           if (error) return reject(Error('Something happened, try again later.'))
           const file:Shedules = data ? JSON.parse(data) : { shedules: [] }
@@ -71,6 +70,97 @@ class Shedule {
       }).catch(function (err) {
         // caso tenha acontecido um erro de validação retorna o Erro da Validação
         reject(Error(err.message))
+      })
+    })
+  }
+
+  public getByInterval (startDate:string, endDate:string): Promise<SheduleData[]> {
+    let response: SheduleData[] = []
+    return new Promise((resolve, reject) => {
+      console.log({ startDate, endDate })
+      // faz a validações dos dados pelo schema se valido faz a regra de negocio
+      getSchema.validate({ startDate, endDate }).then((dateInterval) => {
+        fs.readFile(local, 'utf8', (error, data) => {
+          if (error) return reject(Error('Something happened, try again later.'))
+          const file:Shedules = data ? JSON.parse(data) : { shedules: [] }
+          const { shedules } = file
+          // passa os dias passados para o momente
+          const momentStartDate = moment(dateInterval.startDate, 'DD-MM-YYYY')
+          const momentEndDate = moment(dateInterval.endDate, 'DD-MM-YYYY')
+          // cria uma variavel moment para ser adicionado cada dia no loop e usar na comparação
+          const variableMoment = momentStartDate
+          // calcula a diferença em dias para realizar um loop por cada dia
+          const diffDays = momentEndDate.diff(momentStartDate, 'days')
+          for (let i = 0; i <= diffDays; i++) {
+            // para cada dia faz um for por pelas regras cadastradas
+            // e faz comparações para saber se aquela regra pertence
+            // ao dia passado
+            shedules.map(shedule => {
+              if (shedule.type === 0) {
+                // para a regra dia verifica se é o mesmo dia
+                if (moment(shedule.day, 'DD-MM-YYYY').format('DD-MM-YYYY') === variableMoment.format('DD-MM-YYYY')) {
+                  response = this.insertDayInVetor({ day: variableMoment.format('DD-MM-YYYY'), intervals: shedule.intervals }, response)
+                }
+              }
+              if (shedule.type === 1) {
+                // para a regra diaria não faz verificação pois serve para todos os dias
+                response = this.insertDayInVetor({ day: variableMoment.format('DD-MM-YYYY'), intervals: shedule.intervals }, response)
+              }
+              if (shedule.type === 2) {
+                // para a regra semanal verifica se o dia da semana passada esta dentro do vetor daysOfWeek
+                if (shedule.daysOfWeek.indexOf(moment(shedule.day, 'DD-MM-YYYY').weekday())) {
+                  response = this.insertDayInVetor({ day: variableMoment.format('DD-MM-YYYY'), intervals: shedule.intervals }, response)
+                }
+              }
+            })
+            // adiciona um dia ao final do loop
+            variableMoment.add(1, 'days')
+          }
+          // retorna o vetor response com os dados caso encontre, se não encontrar retorna vazio
+          return resolve(response)
+        })
+      }).catch(function (err) {
+        // retorna o erro da validação caso não passe no teste de validação
+        return reject(Error(err.message))
+      })
+    })
+  }
+
+  public delete (id:string): Promise<string> {
+    let deletedFlag = false
+    return new Promise((resolve, reject) => {
+      fs.readFile(local, 'utf8', (err, data) => {
+        if (err) return reject(Error('Something happened, try again later.'))
+
+        const file:Shedules = data ? JSON.parse(data) : { shedules: [] }
+        const { shedules } = file
+        // verifica se existe ao menos uma regra cadastrada se não tiver envia o erro
+        if (shedules.length === 0) return reject(Error('Dont have schedules to delete'))
+        // faz um filtro pelas regras  caso o id da regra e o id
+        // passado para deletar for igual retorna falso, então
+        // elemina esse item do vetor filtrado, caso o item for
+        // deletado ele altera a flag
+        const filtredShedules = shedules.filter((shedule) => {
+          if (shedule.id === id) {
+            deletedFlag = true
+            return false
+          } else {
+            return true
+          }
+        })
+        // caso a flag tenha sido alterada ele retorna grava o vetor filtrado
+        // e retorna uma mensagem de sucesso
+        if (deletedFlag) {
+          fs.writeFile(local, JSON.stringify({ shedules: filtredShedules }), (error) => {
+            if (error) return reject(Error('Something happened, try again later.'))
+
+            return resolve('Schedule deleted successfully')
+          })
+        } else {
+          // caso a flag não tenha sido alterada ele acusa erro
+          // informando que não achou essa regra
+          return reject(Error('This schedule was not found'))
+        }
       })
     })
   }
@@ -170,6 +260,36 @@ class Shedule {
       })
       return validFlag
     }
+  }
+
+  // essa função é um helper para o getIntervals, ele recebe um vetor com o dia
+  // e os intervalos cadastrados e um objeto com o dia e os inteervalos a serem
+  // adicionado, verifica se já existe dia no vetor e concatena com o intervals
+  // do dia que já esta no vetor, caso não tenha o dia insere o novo dia
+  private insertDayInVetor (newShedule:SheduleData, shedules:SheduleData[]) {
+    let addFlag = false
+    // verifica se tem ao menos um item no vetor
+    // para fazer o teste e incluir o intervalo
+    if (shedules.length > 0) {
+      shedules.map((shedule, index) => {
+        if (shedule.day === newShedule.day) {
+          // caso seja o mesmo dia altera o flag
+          // e concatena os vetores de intervalo
+          addFlag = true
+          shedules[index].intervals = shedule.intervals.concat(newShedule.intervals)
+        }
+      })
+    } else {
+      // caso não tenha nenhum dado no vetor adiciona
+      // o novo objeto no vetor e muda a flag
+      addFlag = true
+      shedules.push(newShedule)
+    }
+
+    // caso não adicionou o novo objeto adiciona
+    !addFlag && shedules.push(newShedule)
+
+    return shedules
   }
 }
 

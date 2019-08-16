@@ -14,6 +14,18 @@ class SheduleController {
       .then(value => Handlers.onSucess(res, value))
       .catch(err => Handlers.onError(res, err))
   }
+
+  public getByInterval (req: Request, res: Response) {
+    Shedule.getByInterval(req.params.start, req.params.end)
+      .then(value => Handlers.onSucess(res, value))
+      .catch(err => Handlers.onError(res, err))
+  }
+
+  public delete (req: Request, res: Response) {
+    Shedule.delete(req.params.id)
+      .then(value => Handlers.onSucess(res, value))
+      .catch(err => Handlers.onError(res, err))
+  }
 }
 
 export default new SheduleController()
