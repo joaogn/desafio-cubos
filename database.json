@@ -1,1 +1,1 @@
-{"shedules":[{"type":0,"day":"15-08-2019","intervals":[{"start":"11:00","end":"12:00"},{"start":"14:00","end":"15:00"}],"id":"733c66dc-5680-4b30-8bdb-367542724538"},{"type":2,"daysOfWeek":[0,1,2,3,5,6],"intervals":[{"start":"16:00","end":"17:00"},{"start":"17:00","end":"18:00"}],"id":"8ca53310-4442-421d-abfb-156091ce34d5"}]}
+{ "shedules": [] }
