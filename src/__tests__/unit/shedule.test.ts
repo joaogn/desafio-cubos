@@ -142,7 +142,6 @@ describe('Unit Test Shedule Service', () => {
   describe('Test Method getByInterval', () => {
     it('should return intervals', async () => {
       const result = await Shedule.getByInterval('14-08-2019', '16-08-2019')
-      console.log(result)
       expect(Object.keys(result[0]).sort()).toEqual(['day', 'intervals'].sort())
       expect(result[0].day).toEqual('14-08-2019')
       expect(result[0].intervals[0].start).toEqual('08:00')

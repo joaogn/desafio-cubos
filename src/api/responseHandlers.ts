@@ -2,7 +2,6 @@ import { Request, Response, ErrorRequestHandler, NextFunction } from 'express'
 
 class Handlers {
   public onError (res: Response, err: string) {
-    console.log(`${err}`)
     res.status(400).send(`${err}`)
   }
 

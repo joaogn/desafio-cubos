@@ -75,7 +75,6 @@ class Shedule {
         // caso tenha acontecido um erro de validação retorna o Erro da Validação
 
         // contorna as issues https://github.com/jquense/yup/issues/256 , https://github.com/jquense/yup/issues/602
-        console.log(err.message)
         if (err.message === `Cannot read property 'length' of undefined`) {
           return reject(Error('daysOfWeek is required or Intervals is required'))
         } else {
@@ -88,7 +87,6 @@ class Shedule {
   public getByInterval (startDate:string, endDate:string): Promise<SheduleData[]> {
     let response: SheduleData[] = []
     return new Promise((resolve, reject) => {
-      console.log({ startDate, endDate })
       // faz a validações dos dados pelo schema se valido faz a regra de negocio
       getSchema.validate({ startDate, endDate }).then((dateInterval) => {
         fs.readFile(local, 'utf8', (error, data) => {
