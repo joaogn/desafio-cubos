@@ -148,7 +148,6 @@ function validateIntervals (intervals:Interval[]):boolean {
   // caso tenha choque de horario ele muda a flag para false e retorna a flag saindo do loop
   // com a flag false ele verifica se é falsó e sai do segundo loop retornando a flag
     intervals.every((firstInterval, firstIndex) => {
-      if (!validFlag) return false
       intervals.every((secondInterval, secondIndex) => {
       // verifica se o  valor do index do primeiro
       // é diferente do segundo para não compara o mesmo item
@@ -162,7 +161,7 @@ function validateIntervals (intervals:Interval[]):boolean {
             (firstStart.isSame(secondStart) && firstEnd.isSame(secondEnd)) ||
           (firstStart.isBetween(secondStart, secondEnd) && !firstStart.isSame(secondEnd)) ||
           (secondStart.isBetween(firstStart, firstEnd)) ||
-          (firstEnd.isBetween(secondStart, secondEnd) && !firstEnd.isSame(secondStart)) ||
+          (firstEnd.isBetween(secondStart, secondEnd)) ||
           (secondEnd.isBetween(firstStart, firstEnd))
           ) {
             validFlag = false
