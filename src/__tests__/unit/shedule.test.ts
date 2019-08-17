@@ -191,6 +191,68 @@ describe('Unit Test Shedule Service', () => {
         done()
       })
     })
+    it('should return error "daysOfWeek is not allowed for this type."', (done) => {
+      const newSheduleDay = {
+        type: 0,
+        day: '15-08-2019',
+        daysOfWeek: [1, 2, 3],
+        intervals: [
+          {
+            start: '11:00',
+            end: '12:00'
+          }]
+      }
+      Shedule.add(newSheduleDay).catch(function (err) {
+        expect(err).toStrictEqual(Error('daysOfWeek is not allowed for this type.'))
+        done()
+      })
+    })
+    it('should return error "daysOfWeek is not allowed for this type."', (done) => {
+      const newSheduleDay = {
+        type: 1,
+        daysOfWeek: [1, 2, 3],
+        intervals: [
+          {
+            start: '11:00',
+            end: '12:00'
+          }]
+      }
+      Shedule.add(newSheduleDay).catch(function (err) {
+        expect(err).toStrictEqual(Error('daysOfWeek is not allowed for this type.'))
+        done()
+      })
+    })
+    it('should return error "day is not allowed for this type."', (done) => {
+      const newSheduleDay = {
+        type: 1,
+        day: '15-08-2019',
+        intervals: [
+          {
+            start: '11:00',
+            end: '12:00'
+          }]
+      }
+      Shedule.add(newSheduleDay).catch(function (err) {
+        expect(err).toStrictEqual(Error('day is not allowed for this type.'))
+        done()
+      })
+    })
+    it('should return error "day is not allowed for this type."', (done) => {
+      const newSheduleDay = {
+        type: 2,
+        day: '15-08-2019',
+        daysOfWeek: [1, 2, 3],
+        intervals: [
+          {
+            start: '11:00',
+            end: '12:00'
+          }]
+      }
+      Shedule.add(newSheduleDay).catch(function (err) {
+        expect(err).toStrictEqual(Error('day is not allowed for this type.'))
+        done()
+      })
+    })
     it('should return error "Invalid day format.', (done) => {
       const newSheduleDay = {
         type: 0,

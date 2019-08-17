@@ -55,7 +55,16 @@ export const addSchema = Yup.object().shape({
           // testa se o formato do dia está correto
           (value:string):boolean => (moment(value, 'DD-MM-YYYY', true).isValid())
         ),
-      otherwise: Yup.string().notRequired()
+      // se for de qualquer outro tipo a variavel day não deve existir
+      otherwise: Yup.string().test(
+        'type error',
+        'day is not allowed for this type.',
+        // se value for igual a undefined é pq o daysOfWeek não foi passado
+        // então ele passa pelo test do tipo, caso exista a variavel
+        // ele retorna erro dizendo que daysOfWeek não é permitido
+        // para esse tipo
+        (value:number[]):boolean => value === undefined
+      )
     }),
   daysOfWeek: Yup.array<number>()
     // O When verifica qual o tipo e só valida a obrigação da variavel daysOfWeek se for do tipo 2
@@ -78,7 +87,16 @@ export const addSchema = Yup.object().shape({
           (value:number[]):boolean => (new Set(value)).size === value.length
         )
         .required('daysOfWeek is required.'),
-      otherwise: Yup.array().notRequired()
+      // se for de qualquer outro tipo a variavel daysOfWeek não deve existir
+      otherwise: Yup.array().test(
+        'type error',
+        'daysOfWeek is not allowed for this type.',
+        // se value for igual a undefined é pq o daysOfWeek não foi passado
+        // então ele passa pelo test do tipo, caso exista a variavel
+        // ele retorna erro dizendo que daysOfWeek não é permitido
+        // para esse tipo
+        (value:number[]):boolean => value === undefined
+      )
     }),
   intervals: Yup.array()
     // o of define o tipo do array, nesse caso um objeto com 2 string star e end
