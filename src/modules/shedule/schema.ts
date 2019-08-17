@@ -107,6 +107,7 @@ export const addSchema = Yup.object().shape({
         (value:Interval):boolean => moment(value.start, 'HH:mm').isBefore(moment(value.end, 'HH:mm'))
       )
     )
+    .min(1, 'Must have at least one item in intervals.')
     .test(
       'validation interval shock',
       'Time shock in the intervals',
