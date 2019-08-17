@@ -73,7 +73,13 @@ class Shedule {
         })
       }).catch(function (err) {
         // caso tenha acontecido um erro de validação retorna o Erro da Validação
-        reject(Error(err.message))
+
+        // contorna as issues https://github.com/jquense/yup/issues/256 , https://github.com/jquense/yup/issues/602
+        if (err.message === `Cannot read property 'length' of undefined`) {
+          return reject(Error('daysOfWeek is required.'))
+        } else {
+          return reject(Error(err.message))
+        }
       })
     })
   }
