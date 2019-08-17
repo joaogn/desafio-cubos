@@ -1,5 +1,9 @@
 # Desafio Cubos
 
+## BUG
+
+- Tem um bug que ao passar o tipo 1 ele aceita as variaveis day e daysOfWeek
+
 ## Roadmap
 
 - ~~Criar Repo~~
