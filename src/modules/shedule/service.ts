@@ -197,7 +197,7 @@ class Shedule {
       // se for regra dia com semanal ele vê se o dia da semana da data esta dentro do vetor de dias da semana
       // caso esteja ele compara os intervalos
       if (newShedule.type === 2) {
-        if (newShedule.daysOfWeek.indexOf(moment(oldShedule.day, 'DD-MM-YYYY').weekday())) {
+        if (newShedule.daysOfWeek.indexOf(moment(oldShedule.day, 'DD-MM-YYYY').weekday()) >= 0) {
           validFlag = verifyIntervals(newShedule.intervals, oldShedule.intervals)
           return validFlag
         } else {
@@ -215,7 +215,7 @@ class Shedule {
       if (newShedule.type === 0) {
         // se for regra semanla com dia ele vê se o dia da semana da data esta dentro do vetor de dias da semana
         // caso esteja ele compara os intervalos
-        if (oldShedule.daysOfWeek.indexOf(moment(newShedule.day, 'DD-MM-YYYY').weekday())) {
+        if (oldShedule.daysOfWeek.indexOf(moment(newShedule.day, 'DD-MM-YYYY').weekday()) >= 0) {
           validFlag = verifyIntervals(newShedule.intervals, oldShedule.intervals)
           return validFlag
         } else {
@@ -238,7 +238,6 @@ class Shedule {
         }
       }
     }
-    return validFlag
 
     // Essa função é um Helper para a função de validar regras ela receber 2 vetores de intervalos
     // o vetor a ser cadastro e o vetor a ser comparado
@@ -249,7 +248,6 @@ class Shedule {
       // caso tenha algum choque de horario ele muda a flag para falso e retorna falso saindo do loop 2
       // caso for falso ao retorna o falor do flag tb sai do loop 1
       newIntervals.every(newHour => {
-        if (!validFlag) return false
         oldIntervals.every(oldHour => {
           // Passa os horarios para moment para comparar o choque de horario
           const newStart = moment(newHour.start, 'HH:mm')
@@ -260,7 +258,7 @@ class Shedule {
             (newStart.isSame(oldStart) && newEnd.isSame(oldEnd)) ||
             (newStart.isBetween(oldStart, oldEnd) && !newStart.isSame(oldEnd)) ||
             (oldStart.isBetween(newStart, newEnd)) ||
-            (newEnd.isBetween(oldStart, oldEnd) && !newEnd.isSame(oldStart)) ||
+            (newEnd.isBetween(oldStart, oldEnd)) ||
             (oldEnd.isBetween(newStart, newEnd))
           ) {
             validFlag = false
