@@ -12,12 +12,14 @@
     "testwin": "set NODE_ENV=test jest --runInBand"
   },
   "dependencies": {
+    "@types/supertest": "^2.0.8",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "lowdb": "^1.0.0",
     "moment": "^2.24.0",
     "sucrase": "^3.10.1",
+    "supertest": "^4.0.2",
     "typescript": "^3.5.3",
     "uuidv4": "^4.0.0",
     "yup": "^0.27.0"

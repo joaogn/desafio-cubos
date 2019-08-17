@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/15</span>
+        <span class='fraction'>15/15</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,21 +30,21 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/12</span>
+        <span class='fraction'>12/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/15</span>
+        <span class='fraction'>15/15</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -78,74 +78,74 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Request, Response } from 'express'
-<span class="cstat-no" title="statement not covered" >import Handlers from '../../api/responseHandlers'</span>
-<span class="cstat-no" title="statement not covered" >import Shedule from './service'</span>
+import Handlers from '../../api/responseHandlers'
+import Shedule from './service'
 &nbsp;
 class SheduleController {
-  public <span class="fstat-no" title="function not covered" >add </span>(req: Request, res: Response) {
-<span class="cstat-no" title="statement not covered" >    Shedule.add(req.body)</span>
-      .then(<span class="fstat-no" title="function not covered" >value </span>=&gt; <span class="cstat-no" title="statement not covered" >Handlers.onSucess(res, value))</span>
-      .catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; <span class="cstat-no" title="statement not covered" >Handlers.onError(res, err))</span>
+  public add (req: Request, res: Response) {
+    Shedule.add(req.body)
+      .then(value =&gt; Handlers.onSucess(res, value))
+      .catch(err =&gt; Handlers.onError(res, err))
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >getAll </span>(req: Request, res: Response) {
-<span class="cstat-no" title="statement not covered" >    Shedule.getAll()</span>
-      .then(<span class="fstat-no" title="function not covered" >value </span>=&gt; <span class="cstat-no" title="statement not covered" >Handlers.onSucess(res, value))</span>
-      .catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; <span class="cstat-no" title="statement not covered" >Handlers.onError(res, err))</span>
+  public getAll (req: Request, res: Response) {
+    Shedule.getAll()
+      .then(value =&gt; Handlers.onSucess(res, value))
+      .catch(err =&gt; Handlers.onError(res, err))
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >getByInterval </span>(req: Request, res: Response) {
-<span class="cstat-no" title="statement not covered" >    Shedule.getByInterval(req.params.start, req.params.end)</span>
-      .then(<span class="fstat-no" title="function not covered" >value </span>=&gt; <span class="cstat-no" title="statement not covered" >Handlers.onSucess(res, value))</span>
-      .catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; <span class="cstat-no" title="statement not covered" >Handlers.onError(res, err))</span>
+  public getByInterval (req: Request, res: Response) {
+    Shedule.getByInterval(req.params.start, req.params.end)
+      .then(value =&gt; Handlers.onSucess(res, value))
+      .catch(err =&gt; Handlers.onError(res, err))
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >delete </span>(req: Request, res: Response) {
-<span class="cstat-no" title="statement not covered" >    Shedule.delete(req.params.id)</span>
-      .then(<span class="fstat-no" title="function not covered" >value </span>=&gt; <span class="cstat-no" title="statement not covered" >Handlers.onSucess(res, value))</span>
-      .catch(<span class="fstat-no" title="function not covered" >err </span>=&gt; <span class="cstat-no" title="statement not covered" >Handlers.onError(res, err))</span>
+  public delete (req: Request, res: Response) {
+    Shedule.delete(req.params.id)
+      .then(value =&gt; Handlers.onSucess(res, value))
+      .catch(err =&gt; Handlers.onError(res, err))
   }
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export default new SheduleController()</span>
+export default new SheduleController()
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Aug 17 2019 14:02:58 GMT-0300 (GMT-03:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Aug 17 2019 19:45:24 GMT-0300 (GMT-03:00)
 </div>
 </div>
 <script src="../../prettify.js"></script>

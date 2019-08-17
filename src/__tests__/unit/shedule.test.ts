@@ -69,6 +69,14 @@ describe('Unit Test Shedule Service', () => {
       expect(Object.keys(result[1]).sort()).toEqual(['id', 'type', 'intervals'].sort())
       expect(Object.keys(result[2]).sort()).toEqual(['id', 'type', 'daysOfWeek', 'intervals'].sort())
     })
+    it('should return error "Something happened, try again later."', (done) => {
+      fs.unlink(local, () => {
+        Shedule.getAll().catch(function (err) {
+          expect(err).toStrictEqual(Error('Something happened, try again later.'))
+          done()
+        })
+      })
+    })
   })
 
 
@@ -92,6 +100,14 @@ describe('Unit Test Shedule Service', () => {
         }
         Shedule.delete('zyk987').catch(function (err) {
           expect(err).toStrictEqual(Error('Dont have schedules to delete'))
+          done()
+        })
+      })
+    })
+    it('should return error "Something happened, try again later."', (done) => {
+      fs.unlink(local, () => {
+        Shedule.delete('zyk987').catch(function (err) {
+          expect(err).toStrictEqual(Error('Something happened, try again later.'))
           done()
         })
       })
@@ -132,6 +148,14 @@ describe('Unit Test Shedule Service', () => {
       expect(result[0].intervals[0].start).toEqual('08:00')
       expect(result[2].day).toEqual('16-08-2019')
       expect(result[2].intervals[1].end).toEqual('17:00')
+    })
+    it('should return error "Something happened, try again later."', (done) => {
+      fs.unlink(local, () => {
+        Shedule.getByInterval('14-08-2019', '16-08-2019').catch(function (err) {
+          expect(err).toStrictEqual(Error('Something happened, try again later.'))
+          done()
+        })
+      })
     })
   })
 
@@ -668,6 +692,23 @@ describe('Unit Test Shedule Service', () => {
       Shedule.add(newSheduleDay).catch(function (err) {
         expect(err).toStrictEqual(Error('Can not register time shock'))
         done()
+      })
+    })
+    it('should return error "Something happened, try again later."', (done) => {
+      const newSheduleDay = {
+        type: 0,
+        day: '15-08-2019',
+        intervals: [
+          {
+            start: '10:00',
+            end: '13:00'
+          }]
+      }
+      fs.unlink(local, () => {
+        Shedule.add(newSheduleDay).catch(function (err) {
+          expect(err).toStrictEqual(Error('Something happened, try again later.'))
+          done()
+        })
       })
     })
   })
