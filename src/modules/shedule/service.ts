@@ -75,8 +75,9 @@ class Shedule {
         // caso tenha acontecido um erro de validação retorna o Erro da Validação
 
         // contorna as issues https://github.com/jquense/yup/issues/256 , https://github.com/jquense/yup/issues/602
+        console.log(err.message)
         if (err.message === `Cannot read property 'length' of undefined`) {
-          return reject(Error('daysOfWeek is required.'))
+          return reject(Error('daysOfWeek is required or Intervals is required'))
         } else {
           return reject(Error(err.message))
         }
