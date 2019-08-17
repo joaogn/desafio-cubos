@@ -1,170 +1,330 @@
 # Desafio Cubos
 
-## BUG
+## Api Para Agendamento
 
-- Tem um bug que ao passar o tipo 1 ele aceita as variaveis day e daysOfWeek
+### **Overview**
 
-## Roadmap
+Api para agendamento serve para agendar horários, sendo possível cadastrar um agendamento por: dia especifico, diária ou semanal, deletar o agendamento criado, consultar todos os agendamentos e também consultar por intervalo de dia
 
-- ~~Criar Repo~~
-- ~~Criar Partner do Projeto~~
-- ~~Definir se vai usar lowDB ou fs~~
-- ~~Criar Primeira rota getAll~~
-- ~~Definir Estrutura dos Dados~~
+### **Features**
 
-  - ```
-    interface Interval {
-    start: string,
-    end: string,
+- Node.js
+- TypeScript
+- ESLint
+- Jest
+
+### **Quick start**
+
+- Clonar Repositorio: `git clone git@github.com:joaogn/desafio-cubos.git`
+- Instalar Depedencias: `yarn`
+- Iniciar Server: `yarn start`
+- Testes: `yarn test`
+- Testes Windows: `yarn testwin`
+- Develop: `yarn dev`
+
+### **Database**
+
+Os arquivos de dados são src/database.json e src/testDatabase.json (usado somente para testes)
+
+### **Endpoints**
+
+### Cadastrar regras de horário para atendimento
+
+http://localhost:3333/shedules **POST**
+
+**Dados Válidos**
+
+```javascript
+type: 0 - Regra Dia Especifico /  1- Regra Diária / 2- Regra Semanal
+day: "DD-MM-YYY" // Apenas type: 0
+daysOfWeek:[0,1,2,3,4,5,6] //0 a 6 sendo (Domingo a Sábado) Apenas type: 2
+intervals [
+    {
+        "start": "HH:MM",
+        "end": "HH:MM"
     }
+]
+// Verifica se tem itens em intervals e se não tem choque de horário nesses itens
+```
 
-    interface SheduleData {
-        id?: string, //UUID
-        type: number, // 0 - Regra Dia Especifico /  1- Regra Diaria / 2- Regra Semanal
-        day?: string,
-        daysOfWeek?: number[],
-        intervals: Interval[],
+**Regra Dia Especifico**
+
+Esta regra cadastra intervalos de horários em um dia específico.
+
+```json
+{
+  "type": 0,
+  "day": "14-08-2019",
+  "intervals": [
+    {
+      "start": "11:00",
+      "end": "12:00"
+    },
+    {
+      "start": "14:00",
+      "end": "15:00"
     }
+  ]
+}
+```
 
-    interface Shedules{
-        shedules: SheduleData[]
+**Regra Diária**
+
+Esta regra cadastra intervalos de horários para todos os dias
+
+```json
+{
+  "type": 1,
+  "intervals": [
+    {
+      "start": "08:00",
+      "end": "09:00"
     }
-    ```
+  ]
+}
+```
 
-- ~~Criar Yup Schema Para Validar Entrada~~
-- ~~Criar Rotas~~
-  - ~~Criar a rota add~~
-  - ~~Criar a rota getByInterval~~
-  - ~~Criar a rota delete~~
-- ~~Criar Testes~~
-  - ~~Criar Test getAll~~
-  - ~~Criar Test delete~~
-  - ~~Criar Test getByInterval~~
-  - ~~Criar Test add~~
-- Resolver o Bug Anotado
-- Fazer a Documentação
+**Regra Semanal**
 
-## Regras
+Esta regra cadastra intervalos de horários para os dias da semana, passando os valores do dia da semana em daysOfWeek
 
-### Regra Dia
+```json
+{
+  "type": 2,
+  "daysOfWeek": [1, 2],
+  "intervals": [
+    {
+      "start": "16:00",
+      "end": "17:00"
+    },
+    {
+      "start": "17:00",
+      "end": "18:00"
+    }
+  ]
+}
+```
+
+**Dados de Retorno**
+
+```json
+{
+  "type": 0,
+  "day": "14-08-2019",
+  "intervals": [
+    {
+      "start": "11:00",
+      "end": "12:00"
+    },
+    {
+      "start": "14:00",
+      "end": "15:00"
+    }
+  ],
+  "id": "7d86241a-cfbb-4307-a0f5-4fd211ae2125"
+}
+```
+
+**Erros Retornados**
+
+```json
+ "Something happened, try again later." 400 Bad Request
+ "Type is required." 400 Bad Request
+ "daysOfWeek is required." 400 Bad Request
+ "Intervals is required." 400 Bad Request
+ "Value not allowed for type." 400 Bad Request
+ "daysOfWeek is not allowed for this type." 400 Bad Request
+ "day is not allowed for this type." 400 Bad Request
+ "Invalid day format." 400 Bad Request
+ "Start hour must be before end." 400 Bad Request
+ "Invalid start format." 400 Bad Request
+ "Invalid end format." 400 Bad Request
+ "Maximum allowed value is 6 within daysOfWeek." 400 Bad Request
+ "Minimum allowed value is 0 within daysOfWeek." 400 Bad Request
+ "Must have at least one item in daysOfWeek." 400 Bad Request
+ "Must have a maximum of 7 items in daysOfWeek." 400 Bad Request
+ "Has duplicate value in daysOfWeek." 400 Bad Request
+ "Must have at least one item in intervals." 400 Bad Request
+ "Time shock in the intervals" 400 Bad Request
+ "Can not register time shock" 400 Bad Request
 
 ```
-{
+
+### **Apagar regra de horário para atendimento**
+
+http://localhost:3333/shedules/:id/delete **DELETE**
+
+**Dados Válidos**
+
+```javascript
+id: "d922041b-99b1-4650-bf75-0f7f8f8e4eb3"; // id da regra cadastrada
+```
+
+**Dados de Retorno**
+
+```json
+"Schedule deleted successfully" 200 OK
+```
+
+**Erros Retornados**
+
+```json
+"Something happened, try again later." 400 Bad Request
+"This schedule was not found" 400 Bad Request
+"Dont have schedules to delete" 400 Bad Request
+```
+
+### **Listar regras de horários para atendimento**
+
+http://localhost:3333/shedules **GET**
+
+**Dados de Retorno**
+
+```json
+[
+  {
     "type": 0,
     "day": "14-08-2019",
     "intervals": [
-    {
+      {
         "start": "11:00",
         "end": "12:00"
-    },
-    {
+      },
+      {
         "start": "14:00",
         "end": "15:00"
-    }]
- }
-```
-
-### Regra Diaria
-
-```
-{
-	"type": 1,
-	"intervals": [
-    {
-    	"start": "08:00",
-    	"end": "09:00"
-    }
-    ]
-}
-```
-
-### Regra Semanal
-
-```
-{
-   "type": 2,
-   "daysOfWeek": [1,2],
-   "intervals": [
-    {
+      }
+    ],
+    "id": "2bc3edb2-59b7-4b1f-81e5-7dea1e602a30"
+  },
+  {
+    "type": 1,
+    "intervals": [
+      {
+        "start": "08:00",
+        "end": "09:00"
+      }
+    ],
+    "id": "7673d802-76f8-4f6b-974f-547e35d78995"
+  },
+  {
+    "type": 2,
+    "daysOfWeek": [1, 2],
+    "intervals": [
+      {
         "start": "16:00",
         "end": "17:00"
-    },
-    {
+      },
+      {
         "start": "17:00",
         "end": "18:00"
-    }]
-}
+      }
+    ],
+    "id": "d174b9a9-42f7-4964-8c8f-6cb6042977c9"
+  }
+]
 ```
 
-# Processo Seletivo: Backend
+**Erros Retornados**
 
-Olá! Neste desáfio você deve criar uma API REST para facilitar o gerenciamento de horários de uma clínica! Sua API deve conter endpoints para satisfazer as seguintes features:
-
-    - Cadastrar regras de horários para atendimento
-    - Apagar regra de horário para atendimento
-    - Listar regras de horários para atendimento
-    - Listar horários disponíveis dentro de um intervalo
-
-É importante notar que a API deve ser feita com Javascript (Node.js) **e os dados devem ser salvos em um arquivo JSON** (não sendo permitido o uso de banco de dados).
-
-## Endpoints:
-
-### Cadastro de regra de atendimento
-
-O cadastro de regras de horário para atendimento deve possibilitar que se disponibilize intervalos de horário para consulta, possibilitando regras para:
-
-    - Um dia especifico, por exemplo: estará disponível para atender dia 25/06/2018 nos intervalos de 9:30 até 10:20 e de 10:30 até as 11:00
-    - Diáriamente, por exemplo: estará disponível para atender todos os dias das 9:30 até as 10:10
-    - Semanalmente, por exemplo: estará disponível para atender todas segundas e quartas das 14:00 até as 14:30
-
-### Apagar regra
-
-Este metódo deve ser capaz de de apagar uma regra especifica criada pelo endpoint descrito em "Cadastro de regra de atendimento".
-
-### Listar regras
-
-O metódo de listar deve retornar as regras de atendimento criadas pelo endpoint descrito em "Cadastro de regra de atendimento".
-
-### Horários disponíveis
-
-Este endpoint deve retornar os horários disponíveis, baseado nas regras criadas anteriormente, considerando um intervalo de datas informadas na requisição.
-
-O retorno deve seguir o formato exemplificado abaixo. Por exemplo, se o intervalo solicitado for 25-01-2018 e 29-01-2018 teremos o seguinte resultado:
-
-```
-[{
-    day: "25-01-2018",
-    intervals: [{ start: "14:30", end: "15:00" }, { start: "15:10", end: "15:30" }]
-}, {
-    day: "26-01-2018",
-    intervals: [{ start: "14:30", end: "15:00" }, { start: "15:00", end: "15:30" }]
-}, {
-    day: "29-01-2018",
-    intervals: [{ start: "10:40", end: "11:00" }, { start: "15:00", end: "15:30" }]
-}]
+```json
+"Something happened, try again later." 400 Bad Request
 ```
 
-As datas referentes ao intervalo devem estar no padrão: DD-MM-YYYY, por exemplo "25-11-2018".
+**Obs**
 
-**Atenção**: o exemplo de retorno acima NÃO está correlacionado com os exemplos de regras da seção "Cadastro de regra de atendimento".
+Caso não tenha nenhuma regra gravada retona o vetor vazio
 
-## Se você fizer é um plus
+### **Listar horários disponíveis dentro de um intervalo**
 
-    - Teste unitário
-    - Typescript
-    - Documentação
-    - Validar cadastro de regras para evitar conflito de horários
+http://localhost:3333/shedules/:start/:end **GET**
 
-## Entrega
+**Dados Válidos**
 
-Ao finalizar nos envie os seguintes itens:
+```javascript
+start: "DD-MM-YYYY";
+end: "DD-MM-YYYY";
+```
 
-    - Acesso ao repositório (se o repositório for privado, dar permissão de acesso para @backend.psel, se não, compartilhe o link do repositório)
-    - Exemplo de requisição de criação de regra de atendimento para cada um dos 3 casos de exemplo listados na seção "Cadastro de regra de atendimento";
-    - Exemplo de requisição de remoção de regra;
-    - Exemplo de requisição de listagem de regras;
-    - Exemplo de requisição de listagem de horários;
+**Dados de Retorno**
 
-Os exemplos de requisição devem ser enviados na forma de uma Postman (https://www.getpostman.com/) collection, se possível, do contrário, cada exemplo deve conter: nome do endpoint, metódo HTTP referente à chamada e body.
+```json
+[
+  {
+    "day": "14-08-2019",
+    "intervals": [
+      {
+        "start": "11:00",
+        "end": "12:00"
+      },
+      {
+        "start": "14:00",
+        "end": "15:00"
+      },
+      {
+        "start": "08:00",
+        "end": "09:00"
+      },
+      {
+        "start": "16:00",
+        "end": "17:00"
+      },
+      {
+        "start": "17:00",
+        "end": "18:00"
+      }
+    ]
+  },
+  {
+    "day": "15-08-2019",
+    "intervals": [
+      {
+        "start": "08:00",
+        "end": "09:00"
+      },
+      {
+        "start": "16:00",
+        "end": "17:00"
+      },
+      {
+        "start": "17:00",
+        "end": "18:00"
+      }
+    ]
+  },
+  {
+    "day": "16-08-2019",
+    "intervals": [
+      {
+        "start": "08:00",
+        "end": "09:00"
+      },
+      {
+        "start": "16:00",
+        "end": "17:00"
+      },
+      {
+        "start": "17:00",
+        "end": "18:00"
+      }
+    ]
+  }
+]
+```
 
-É isso, vlws flws! :)
+**Erros Retornados**
+
+```json
+"Something happened, try again later." 400 Bad Request
+"Start value must be before end." 400 Bad Request
+"Invalid start day format." 400 Bad Request
+"Invalid end day format" 400 Bad Request
+```
+
+**Obs**
+
+Caso não tenha nenhuma regra gravada retona o vetor vazio
+
+### **Collection Postman**
+
+- src/desafio-cubos-collections
