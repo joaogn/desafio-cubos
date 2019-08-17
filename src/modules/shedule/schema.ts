@@ -123,7 +123,7 @@ function validateIntervals (intervals:Interval[]):boolean {
   // verifica se tem mais de um item no vetor se tiver faz a comparação
   // se não tiver retorna a Flag inicial no caso True e informa que não tem
   // choque
-  if (intervals.length > 0) {
+  if (intervals.length > 1) {
   // faz o loop pelo vetor de intervalos e dentro desse loop faz outro loop pelo vetor intervalo
   // para comparar todos os valores de intervalos entre eles e testar se tem choque de horario
   // caso tenha choque de horario ele muda a flag para false e retorna a flag saindo do loop
