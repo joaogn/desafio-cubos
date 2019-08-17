@@ -18,8 +18,8 @@ Api para agendamento serve para agendar horários, sendo possível cadastrar um 
 - Clonar Repositorio: `git clone git@github.com:joaogn/desafio-cubos.git`
 - Instalar Depedencias: `yarn`
 - Iniciar Server: `yarn start`
-- Testes: `yarn test`
-- Testes Windows: `yarn testwin`
+- Testes: `yarn test` (se falhar tentar novamente)
+- Testes Windows: `yarn testwin` (se falhar tentar novamente)
 - Develop: `yarn dev`
 
 ### **Database**
