@@ -361,7 +361,7 @@ describe('Unit Test Shedule Service', () => {
     it('should return error "Must have a maximum of 7 items in daysOfWeek."', (done) => {
       const newSheduleWeekly = {
         type: 2,
-        daysOfWeek: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        daysOfWeek: [0, 1, 2, 3, 4, 5, 6, 7],
         intervals: [
           {
             start: '16:00',
