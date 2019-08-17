@@ -1,1 +1,1 @@
-{"shedules":[]}
+{"shedules":[{"id":"abc123","type":0,"day":"15-08-2019","intervals":[{"start":"11:00","end":"12:00"},{"start":"14:00","end":"15:00"}]},{"id":"dfg456","type":1,"intervals":[{"start":"08:00","end":"09:00"}]},{"id":"hij789","type":2,"daysOfWeek":[0,1,2,3,4,5,6],"intervals":[{"start":"16:00","end":"17:00"}]}]}

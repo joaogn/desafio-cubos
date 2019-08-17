@@ -36,11 +36,12 @@
   - ~~Criar a rota add~~
   - ~~Criar a rota getByInterval~~
   - ~~Criar a rota delete~~
-- Criar Testes
+- ~~Criar Testes~~
   - ~~Criar Test getAll~~
   - ~~Criar Test delete~~
-  - Criar Test getByInterval
-  - Criar Test add
+  - ~~Criar Test getByInterval~~
+  - ~~Criar Test add~~
+- Resolver o Bug Anotado
 - Fazer a Documentação
 
 ## Regras
